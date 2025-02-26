@@ -66,19 +66,18 @@ export default function CommonForm({
 
       case "textarea":
         element = (
-          <Textarea>
+          <Textarea
             name={getControlItem.name}
             placeholder={getControlItem.placeholder}
             id={getControlItem.id}
             value={value}
-            onChange ={" "}
-            {(event) =>
+            onChange={(event) =>
               setFormData({
                 ...formData,
                 [getControlItem.name]: event.target.value,
               })
             }
-          </Textarea>
+          />
         );
 
         break;
