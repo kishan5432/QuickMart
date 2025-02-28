@@ -1,16 +1,22 @@
-import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
-import { Select, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { SelectContent } from "@radix-ui/react-select";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 
-export default function CommonForm({
+function CommonForm({
   formControls,
   formData,
   setFormData,
   onSubmit,
   buttonText,
+  isBtnDisabled,
 }) {
   function renderInputsByComponentType(getControlItem) {
     let element = null;
@@ -35,11 +41,10 @@ export default function CommonForm({
         );
 
         break;
-
       case "select":
         element = (
           <Select
-            onvalueChange={(value) =>
+            onValueChange={(value) =>
               setFormData({
                 ...formData,
                 [getControlItem.name]: value,
@@ -48,7 +53,7 @@ export default function CommonForm({
             value={value}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={getControlItem.placeholder} />
+              <SelectValue placeholder={getControlItem.label} />
             </SelectTrigger>
             <SelectContent>
               {getControlItem.options && getControlItem.options.length > 0
@@ -63,7 +68,6 @@ export default function CommonForm({
         );
 
         break;
-
       case "textarea":
         element = (
           <Textarea
@@ -109,14 +113,16 @@ export default function CommonForm({
       <div className="flex flex-col gap-3">
         {formControls.map((controlItem) => (
           <div className="grid w-full gap-1.5" key={controlItem.name}>
-            <Label className="mb-1 font-medium">{controlItem.label}</Label>
+            <Label className="mb-1">{controlItem.label}</Label>
             {renderInputsByComponentType(controlItem)}
           </div>
         ))}
       </div>
-      <Button type="submit" className="mt-2 w-full">
+      <Button disabled={isBtnDisabled} type="submit" className="mt-2 w-full">
         {buttonText || "Submit"}
       </Button>
     </form>
   );
 }
+
+export default CommonForm;
